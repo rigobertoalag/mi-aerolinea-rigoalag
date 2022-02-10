@@ -1,0 +1,51 @@
+.container{
+    position: absolute;
+    top: 60px;
+    left:0;
+    right: 0;
+    margin-left: auto; 
+    margin-right: auto; 
+
+    width: 90%;
+    height: 100%;
+    box-shadow: 5px 5px 200px rgba(0, 0, 0, 0.452);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+
+    flex-direction: column;
+    align-items: center;
+    background-color: burlywood;
+}
+.citiesContainer{
+    display: flex;
+    flex-direction: row;
+    margin:0;
+    padding: 0;
+    background-color: red;
+}
+.infoContainer{
+    background-color: yellow;
+    margin-bottom: 10px;
+}
+.deleteReservationContainer{
+    display: flex;
+    justify-content: right;
+    /* background-color: aqua; */
+    /* width: 100%; */
+}
+.deleteReservationBtn{
+    
+}
+.bottomReservationBtnContainer{
+    display: flex;
+    flex-direction: row;
+}
+.cleanReservarion{
+    margin-top: 25px;
+}
+
+.closeReservationContainer{
+    position: absolute;
+    top: 0px;
+    right: 20px;
+}
