@@ -13,7 +13,9 @@ const Reservations = ({ active }) => {
       style={{ display: isActive ? "flex" : "none" }}
       className={style.container}
     >
-      <h2>Mis Reservaciones</h2>
+      <div className={style.title}>
+        <h2>Mis Reservaciones</h2>
+      </div>
 
       <div className={style.infoContainer}>
         <div className={style.citiesContainer}>
@@ -26,7 +28,7 @@ const Reservations = ({ active }) => {
         <p>Total de esta reservacion: "$$"</p>
 
         <div className={style.deleteReservationContainer}>
-          <button className={style.deleteReservationBtn}>
+          <button className={style.deleteBtn}>
             Borrar esta reservacion
           </button>
         </div>
@@ -43,27 +45,31 @@ const Reservations = ({ active }) => {
         <p>Total de esta reservacion: "$$"</p>
 
         <div className={style.deleteReservationContainer}>
-          <button className={style.deleteReservationBtn}>
+          <button className={style.deleteBtn}>
             Borrar esta reservacion
           </button>
         </div>
       </div>
 
-      <h4>Total: "$$"</h4>
+      <div className={style.totalContainer}>
+        <h4>Total: "$$"</h4>
+        <p className={style.smallText}>*Los precios se muestran con IVA</p>
+      </div>
 
       <div className={style.bottomReservationBtnContainer}>
-        <button>Hacer otra reserva</button>
-        <button>Continuar la reserva</button>
+        <button className={style.outlineBtn}>Hacer otra reserva</button>
+        <button className={style.successBtn}>Continuar la reserva</button>
       </div>
 
-      <div className={style.cleanReservarion}>
-          <button>Borar todas las reservaciones</button>
+      <div className={style.cleanReservation}>
+        <button className={style.deleteReservationsBtn}>Borar todas las reservaciones</button>
       </div>
 
-      <div className={style.closeReservationContainer}>
-          <p>X</p>
+      <div className={style.closeReservationContainer} onClick={()=>setIsActive(false)}>
+        <span class="material-icons" style={{ cursor: 'pointer'}}>
+          close
+        </span>
       </div>
-      {/* <button onClick={()=>setIsActive(false)}>Cerrar reservaciones</button> commented for testing */}
     </div>
   );
 };

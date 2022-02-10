@@ -1,0 +1,119 @@
+.container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.homeContainer {
+    width: 768px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.welcomeTitle {
+    font-family: Helvetica, sans-serif;
+    font-size: xx-large;
+    border-bottom: 3px solid black;
+    width: 80%;
+}
+
+.originContainer {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.destinationContainer {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-radius: 10px;
+    color: navy;
+}
+
+.selectOrigin {
+    height: 100px;
+    font-size: xx-large;
+    width: 100%;
+}
+
+.selectDestination {
+    height: 100px;
+    font-size: xx-large;
+    width: 100%;
+}
+
+.smallText {
+    margin: 10px 0px;
+    font-size: medium;
+}
+
+.dateContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.dateSelect {
+    height: 60px;
+    width: 95%;
+    font-size: x-large;
+}
+
+.dateAndPerson {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    width: 80%;
+}
+
+.personContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.btnsInput {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.minorMayorBtn {
+    height: 60px;
+    width: 60px;
+    border: none;
+    background-color: navy;
+    color: oldlace;
+    font-size: 30px;
+    font-weight: bold;
+    border-radius: 5px;
+    margin: 0 2.5px;
+}
+
+.reserveBtn {
+    height: 70px;
+    width: 70%;
+    margin-top: 20px;
+    border: none;
+    font-size: x-large;
+    font-weight: bold;
+    background-color: navy;
+    color: oldlace;
+    border-radius: 5px;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.262);
+}
