@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import style from "./Reservations.module.css";
 
+import ConfirmReservation from "../ConfirmReservation";
+
 const Reservations = ({ active }) => {
   const [isActive, setIsActive] = useState(active);
+  const [isConfirm, setIsConfirm] = useState(false);
 
   useEffect(() => {
     setIsActive(active);
@@ -27,11 +30,11 @@ const Reservations = ({ active }) => {
         <p>Numero de viajeros: "No"</p>
         <p>Total de esta reservacion: "$$"</p>
 
-        <div className={style.deleteReservationContainer}>
-          <button className={style.deleteBtn}>
-            Borrar esta reservacion
-          </button>
-        </div>
+        {isConfirm ? null : (
+          <div className={style.deleteReservationContainer}>
+            <button className={style.deleteBtn}>Borrar esta reservacion</button>
+          </div>
+        )}
       </div>
 
       <div className={style.infoContainer}>
@@ -44,29 +47,50 @@ const Reservations = ({ active }) => {
         <p>Numero de viajeros: "No"</p>
         <p>Total de esta reservacion: "$$"</p>
 
-        <div className={style.deleteReservationContainer}>
-          <button className={style.deleteBtn}>
-            Borrar esta reservacion
-          </button>
-        </div>
+        {isConfirm ? null : (
+          <div className={style.deleteReservationContainer}>
+            <button className={style.deleteBtn}>Borrar esta reservacion</button>
+          </div>
+        )}
       </div>
 
       <div className={style.totalContainer}>
-        <h4>Total: "$$"</h4>
+        <h4 className={style.totalReservation} style={{ borderColor: isConfirm ? 'gray' : 'null' }}>Total: "$$"</h4>
         <p className={style.smallText}>*Los precios se muestran con IVA</p>
       </div>
 
-      <div className={style.bottomReservationBtnContainer}>
-        <button className={style.outlineBtn}>Hacer otra reserva</button>
-        <button className={style.successBtn}>Continuar la reserva</button>
-      </div>
+      <ConfirmReservation active={isConfirm} />
 
-      <div className={style.cleanReservation}>
-        <button className={style.deleteReservationsBtn}>Borar todas las reservaciones</button>
-      </div>
+      {isConfirm ? null : (
+        <>
+          <div className={style.bottomReservationBtnContainer}>
+            <button
+              className={style.outlineBtn}
+              onClick={() => setIsActive(false)}
+            >
+              Hacer otra reserva
+            </button>
+            <button
+              className={style.successBtn}
+              onClick={() => setIsConfirm(true)}
+            >
+              Continuar la reservacion
+            </button>
+          </div>
 
-      <div className={style.closeReservationContainer} onClick={()=>setIsActive(false)}>
-        <span class="material-icons" style={{ cursor: 'pointer'}}>
+          <div className={style.cleanReservation}>
+            <button className={style.deleteReservationsBtn}>
+              Borar todas las reservaciones
+            </button>
+          </div>
+        </>
+      )}
+
+      <div
+        className={style.closeReservationContainer}
+        onClick={() => setIsActive(false)}
+      >
+        <span className="material-icons" style={{ cursor: "pointer" }}>
           close
         </span>
       </div>

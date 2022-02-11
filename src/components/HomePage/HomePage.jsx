@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import style from './HomePage.module.css'
 import Reservations from "../Reservations";
+import ConfirmReservation from "../ConfirmReservation";
 
 import data from "../data";
 
@@ -32,7 +33,7 @@ const HomePage = () => {
         <div className={style.originContainer}>
           <small className={style.smallText}>Origen</small>
           <select name="ori" onChange={(e) => setOrigin(e.target.value)} className={style.selectOrigin}>
-            <option value="default" selected="selected">
+            <option value="default">
               Origen
             </option>
             {data.map((d) => (
@@ -51,7 +52,7 @@ const HomePage = () => {
             className={style.selectDestination}
             disabled={origin ? false : true}
           >
-            <option value="default" selected="selected">
+            <option value="default">
               Destino
             </option>
             {data.map((d) => (
@@ -66,7 +67,7 @@ const HomePage = () => {
           <div className={style.dateContainer}>
             <small className={style.smallText}>Horarios de salida disponible</small>
             <select name="select" disabled={destination ? false : true} className={style.dateSelect}>
-              <option value="default" selected="selected">
+              <option value="default">
                 Seleccionar horario
               </option>
               {destination
