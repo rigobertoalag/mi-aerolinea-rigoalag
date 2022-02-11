@@ -12,24 +12,37 @@ const HomePage = () => {
   const [isActiveReservations, setIsActiveReservations] = useState(false);
 
   const [test, setTest] = useState([])
-  const [data2, setData2] = useState(data)
 
-  console.log('ddata 2', data2)
+  const [dataRaw, setDataRaw] = useState(data) //REspuesta de la consulta
+  const [data2, setData2] = useState([])
 
-  const setAvailableDestinations = (iden) => {
-    console.log('id', iden)
-    console.log('data2', data2)
-    const dataF = data2
-    const avDes = dataF.splice(iden, 1) 
-    console.log('ad',dataF)
-    console.log('avDes',avDes)
 
-    console.log('desde data2', data2)
+  const setAvailableDestinations = (idToRemove) => {
+    const dataToModify = dataRaw
+    const dataFiltrada = dataToModify.splice(idToRemove, 1)
+
+    console.log('dataRaw', dataRaw)
+    console.log('dataToModify',dataToModify)
+    console.log('dataFiltrada',dataFiltrada.map(d => d.destination))
+
+    let res = dataFiltrada.map(d => d.destination).toString()
+
+    setData2(dataToModify)
+    setOrigin(res)
+    // const dataF = data2
+    // const avDes = [dataF.splice(idToRemove, 1) ]
+    // console.log(avDes)
+    // console.log(dataF)
+    // setData2(dataF)
+    // // setOrigin(avDes)
   }
+
+  console.log('dataRaw inicio', dataRaw)
+  console.log('origin inicio', origin)
+
   const dateById = [data.find((d) => d.id == destination)];
 
-  console.log('origin raw', origin)
-  console.log('desde data inmutable', data)
+  
 
   const validData = () => {
     if (origin && destination && passengers) {
@@ -48,10 +61,7 @@ const HomePage = () => {
         <h3 className={style.welcomeTitle}>Bienvenido</h3>
         <div className={style.originContainer}>
           <small className={style.smallText}>Origen</small>
-          <select name="ori" onChange={(e)=>setAvailableDestinations(e.target.value)} className={style.selectOrigin}>
-            <option >
-              Origen
-            </option>
+          <select name="ori" value={origin} onChange={(e)=>setAvailableDestinations(e.target.value)} className={style.selectOrigin}>
             {data.map((d) => (
               <option value={d.id} key={d.id}>
                 {d.destination}
@@ -71,7 +81,7 @@ const HomePage = () => {
             <option value="default">
               Destino
             </option>
-            {data.map((d) => (
+            {data2.map((d) => (
               <option value={d.id} key={d.id}>
                 {d.destination}
               </option>
