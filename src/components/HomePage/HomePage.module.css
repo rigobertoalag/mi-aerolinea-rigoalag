@@ -47,6 +47,11 @@ select {
     height: 100px;
     font-size: xx-large;
     width: 100%;
+    background-color: white;
+    margin-bottom: 200px; 
+    border: 1px solid rgba(128, 128, 128, 0.301);
+    border-radius: 10px;
+    color: navy
 }
 
 .selectDestination {
