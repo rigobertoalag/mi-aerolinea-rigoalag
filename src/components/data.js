@@ -1,7 +1,7 @@
 //Datos falsos que seran sustituidos despues en la creacion de la API
 const data = [
     {
-        id: 1,
+        id: 0,
         destination: "Guadalajara",
         vuelos: [
             {
@@ -26,7 +26,7 @@ const data = [
         ]
     },
     {
-        id: 2,
+        id: 1,
         destination: "Monterrey",
         vuelos: [
             {
@@ -51,7 +51,7 @@ const data = [
         ]
     },
     {
-        id: 3,
+        id: 2,
         destination: "Ciudad de México",
         vuelos: [
             {

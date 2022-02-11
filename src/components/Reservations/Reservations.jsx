@@ -17,47 +17,49 @@ const Reservations = ({ active }) => {
       className={style.container}
     >
       <div className={style.title}>
-        <h2>Mis Reservaciones</h2>
+        <h2>{isConfirm ? 'Datos para la reservacion' : 'Mis Reservaciones'}</h2>
       </div>
 
-      <div className={style.infoContainer}>
-        <div className={style.citiesContainer}>
-          <p>Ciduda origen: "ciudad" - </p>
-          <p> Ciudad destino: "ciudad"</p>
-        </div>
+      {
+        !isConfirm ?
+          <>
+            <div className={style.infoContainer}>
+              <div className={style.citiesContainer}>
+                <p>Ciduda origen: "ciudad" - </p>
+                <p> Ciudad destino: "ciudad"</p>
+              </div>
 
-        <p>Hora de salida: "hora"</p>
-        <p>Numero de viajeros: "No"</p>
-        <p>Total de esta reservacion: "$$"</p>
+              <p>Hora de salida: "hora"</p>
+              <p>Numero de viajeros: "No"</p>
+              <p>Total de esta reservacion: "$$"</p>
 
-        {isConfirm ? null : (
-          <div className={style.deleteReservationContainer}>
-            <button className={style.deleteBtn}>Borrar esta reservacion</button>
-          </div>
-        )}
-      </div>
+              <div className={style.deleteReservationContainer}>
+                <button className={style.deleteBtn}>Borrar esta reservacion</button>
+              </div>
+            </div>
 
-      <div className={style.infoContainer}>
-        <div className={style.citiesContainer}>
-          <p>Ciduda origen: "ciudad" - </p>
-          <p> Ciudad destino: "ciudad"</p>
-        </div>
+            <div className={style.infoContainer}>
+              <div className={style.citiesContainer}>
+                <p>Ciduda origen: "ciudad" - </p>
+                <p> Ciudad destino: "ciudad"</p>
+              </div>
 
-        <p>Hora de salida: "hora"</p>
-        <p>Numero de viajeros: "No"</p>
-        <p>Total de esta reservacion: "$$"</p>
+              <p>Hora de salida: "hora"</p>
+              <p>Numero de viajeros: "No"</p>
+              <p>Total de esta reservacion: "$$"</p>
 
-        {isConfirm ? null : (
-          <div className={style.deleteReservationContainer}>
-            <button className={style.deleteBtn}>Borrar esta reservacion</button>
-          </div>
-        )}
-      </div>
-
-      <div className={style.totalContainer}>
-        <h4 className={style.totalReservation} style={{ borderColor: isConfirm ? 'gray' : 'null' }}>Total: "$$"</h4>
-        <p className={style.smallText}>*Los precios se muestran con IVA</p>
-      </div>
+              {isConfirm ? null : (
+                <div className={style.deleteReservationContainer}>
+                  <button className={style.deleteBtn}>Borrar esta reservacion</button>
+                </div>
+              )}
+            </div>
+            <div className={style.totalContainer}>
+              <h4 className={style.totalReservation} style={{ borderColor: isConfirm ? 'gray' : 'null' }}>Total: "$$"</h4>
+              <p className={style.smallText}>*Los precios se muestran con IVA</p>
+            </div>
+          </> : null
+      }
 
       <ConfirmReservation active={isConfirm} />
 
@@ -66,7 +68,7 @@ const Reservations = ({ active }) => {
           <div className={style.bottomReservationBtnContainer}>
             <button
               className={style.outlineBtn}
-              onClick={() => setIsActive(false)}
+              onClick={() => setIsActive(false), () => window.location.reload(false) }
             >
               Hacer otra reserva
             </button>
@@ -88,7 +90,8 @@ const Reservations = ({ active }) => {
 
       <div
         className={style.closeReservationContainer}
-        onClick={() => setIsActive(false)}
+        onClick={() => setIsActive(false), () => window.location.reload(false)      
+        }
       >
         <span className="material-icons" style={{ cursor: "pointer" }}>
           close
