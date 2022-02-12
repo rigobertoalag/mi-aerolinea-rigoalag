@@ -10,7 +10,7 @@ const NavBar = () => {
         display: 'flex',
         justifyContent: 'center'
     }}>
-        <p style={{ color:'white', fontWeight: 'bolder' }}>Mi Aerolínea</p>
+        <p style={{ color:'white', fontWeight: 'bolder', fontSize: 'x-larger' }}>Mi Aerolínea</p>
     </div>
   )
 }

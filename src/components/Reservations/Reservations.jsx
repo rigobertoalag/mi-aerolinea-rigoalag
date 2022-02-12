@@ -25,7 +25,7 @@ const Reservations = ({ active }) => {
           <>
             <div className={style.infoContainer}>
               <div className={style.citiesContainer}>
-                <p>Ciduda origen: "ciudad" - </p>
+                <p>Ciduda origen: "ciudad" </p>
                 <p> Ciudad destino: "ciudad"</p>
               </div>
 

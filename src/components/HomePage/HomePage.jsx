@@ -1,59 +1,66 @@
 import React, { useState, useEffect } from "react";
-import style from './HomePage.module.css'
+import { useSelector, useDispatch } from "react-redux";
+import { decrement, increment } from "../../Redux/slices/counterSlice.js";
+import { get } from "../../Redux/slices/citiesSlice.js";
+import style from "./HomePage.module.css";
 import Reservations from "../Reservations";
 
 import data from "../data";
 
-
 const HomePage = () => {
-  const [origin, setOrigin] = useState('Origen');
-  const [destination, setDestination] = useState('Destino');
+  const [originName, setOriginName] = useState("Origen");
+  const [originID, setOriginID] = useState(null);
+  const [destination, setDestination] = useState("Destino");
   const [passengers, setPassengers] = useState(0);
   const [isActiveReservations, setIsActiveReservations] = useState(false);
+  const [filter, setFilter] = useState([]);
 
-  const [test, setTest] = useState([])
+  const count = useSelector((state) => state.counter.value);
+  const response = useSelector((state) => state.cities.value);
+  const dispatch = useDispatch();
+  console.log("redux", response);
 
-  const [dataRaw, setDataRaw] = useState(data) //REspuesta de la consulta
-  const [data2, setData2] = useState([])
+  const setDestinations = (id) => {
+    let array = data;
+    console.log("array", array);
+    let origenConvertido = array.splice(id, 1);
+    console.log("origner conver", origenConvertido);
 
-
-  const setAvailableDestinations = (idToRemove) => {
-    const dataToModify = dataRaw
-    const dataFiltrada = dataToModify.splice(idToRemove, 1)
-
-    console.log('dataRaw', dataRaw)
-    console.log('dataToModify',dataToModify)
-    console.log('dataFiltrada',dataFiltrada.map(d => d.destination))
-
-    let res = dataFiltrada.map(d => d.destination).toString()
-
-    setData2(dataToModify)
-    setOrigin(res)
-    // const dataF = data2
-    // const avDes = [dataF.splice(idToRemove, 1) ]
-    // console.log(avDes)
-    // console.log(dataF)
-    // setData2(dataF)
-    // // setOrigin(avDes)
-  }
-
-  console.log('dataRaw inicio', dataRaw)
-  console.log('origin inicio', origin)
+    console.log(
+      "oc",
+      origenConvertido.map((d) => d.destination)
+    );
+    const fOriginName = origenConvertido.map((d) => d.destination);
+    setOriginName(fOriginName);
+    setFilter(array);
+  };
 
   const dateById = [data.find((d) => d.id == destination)];
 
-  
+  console.log("desde afuera ", originID);
 
   const validData = () => {
     if (origin && destination && passengers) {
       setIsActiveReservations(true);
-      setOrigin('Origen')
-      setDestination('Destino')
-      setPassengers(0)
+      // setOrigin("Origen");
+      setDestination("Destino");
+      setPassengers(0);
     } else {
       setIsActiveReservations(false);
     }
   };
+
+  const [imageUrl, setImageUrl] = useState(null);
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((user) => {
+        setImageUrl(user); // ⬅️ Guardar datos // ⬅️ Desactivar modo "cargando"
+      });
+    console.log("response", response);
+    console.log("imageurl", imageUrl);
+    dispatch(get(imageUrl));
+  }, []);
 
   return (
     <div className={style.container}>
@@ -61,7 +68,16 @@ const HomePage = () => {
         <h3 className={style.welcomeTitle}>Bienvenido</h3>
         <div className={style.originContainer}>
           <small className={style.smallText}>Origen</small>
-          <select name="ori" value={origin} onChange={(e)=>setAvailableDestinations(e.target.value)} className={style.selectOrigin}>
+          <select
+            name="ori"
+            value={origin}
+            onChange={(e) => setDestinations(e.target.value)}
+            className={style.selectOrigin}
+          >
+            {/* {origin === "Origen" ? <option value={origin}>Origen</option> : null} */}
+            <option value={originName} style={{ color: "gray" }}>
+              {originName}
+            </option>
             {data.map((d) => (
               <option value={d.id} key={d.id}>
                 {d.destination}
@@ -76,12 +92,11 @@ const HomePage = () => {
             name="des"
             onChange={(e) => setDestination(e.target.value)}
             className={style.selectDestination}
-            disabled={origin !== 'Origen' ? false : true}
+            disabled={origin !== "Origen" ? false : true}
+            // onClick={()=>setDestinations(0)}
           >
-            <option value="default">
-              Destino
-            </option>
-            {data2.map((d) => (
+            <option value="default">Destino</option>
+            {filter.map((d) => (
               <option value={d.id} key={d.id}>
                 {d.destination}
               </option>
@@ -91,19 +106,23 @@ const HomePage = () => {
 
         <div className={style.dateAndPerson}>
           <div className={style.dateContainer}>
-            <small className={style.smallText}>Horarios de salida disponible</small>
-            <select name="select" disabled={destination != 'Destino' ? false : true} className={style.dateSelect}>
-              <option value="default">
-                Seleccionar horario
-              </option>
-              {destination !== 'Destino'
+            <small className={style.smallText}>
+              Horarios de salida disponible
+            </small>
+            <select
+              name="select"
+              disabled={destination != "Destino" ? false : true}
+              className={style.dateSelect}
+            >
+              <option value="default">Seleccionar horario</option>
+              {destination !== "Destino"
                 ? dateById.map((e) =>
-                  e.vuelos.map((date) => (
-                    <option value={date.id} key={date.id}>
-                      {date.despegue}
-                    </option>
-                  ))
-                )
+                    e.vuelos.map((date) => (
+                      <option value={date.id} key={date.id}>
+                        {date.despegue}
+                      </option>
+                    ))
+                  )
                 : null}
             </select>
           </div>
@@ -119,20 +138,58 @@ const HomePage = () => {
               >
                 -
               </button>
-              <input value={passengers} disabled={true} />
+              {/* <input value={passengers} disabled={true} /> */}
+              <div className={style.fieldPassengersContainer}>
+                <p className={style.fieldPassengers}>{passengers}</p>
+                {passengers >= 10 ? (
+                  <p className={style.fieldPassengerAlert}>¡Solo puedes comprar 10 boletos!</p>
+                ) : null}
+              </div>
               <button
                 className={style.minorMayorBtn}
                 onClick={() => setPassengers(passengers + 1)}
-                disabled={passengers >= 10 ? true : destination !== 'Destino' ? false : true}
+                disabled={
+                  passengers >= 10
+                    ? true
+                    : destination !== "Destino"
+                    ? false
+                    : true
+                }
               >
                 +
               </button>
-              {passengers >= 10 ? <p>¡Solo puedes comprar 10 boletos!</p> : null}
             </div>
           </div>
         </div>
 
-        <button onClick={() => validData()} className={style.reserveBtn}>Reservar</button>
+        <button onClick={() => validData()} className={style.reserveBtn}>
+          Reservar
+        </button>
+
+        <div>
+          <div>
+            <button
+              aria-label="Increment value"
+              onClick={() => dispatch(increment())}
+            >
+              Increment
+            </button>
+            <span>{count}</span>
+            <button
+              aria-label="Decrement value"
+              onClick={() => dispatch(decrement())}
+            >
+              Decrement
+            </button>
+
+            <button
+              aria-label="añadir test"
+              onClick={() => dispatch(get("adios"))}
+            >
+              test
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* <Reservations active={isActiveReservations} /> commented for testing */}

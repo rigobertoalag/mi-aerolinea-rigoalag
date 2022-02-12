@@ -1,118 +1,145 @@
 .container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .homeContainer {
-    width: 768px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 768px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .welcomeTitle {
-    font-family: Helvetica, sans-serif;
-    font-size: xx-large;
-    border-bottom: 3px solid black;
-    width: 80%;
+  font-family: Helvetica, sans-serif;
+  font-size: xx-large;
+  border-bottom: 3px solid black;
+  width: 80%;
 }
 
 .originContainer {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 15px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 15px;
 }
 
 .destinationContainer {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 30px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 30px;
 }
 
 select {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    border-radius: 10px;
-    color: navy;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 10px;
+  color: navy;
 }
 
 .selectOrigin {
-    height: 100px;
-    font-size: xx-large;
-    width: 100%;
+  height: 70px;
+  font-size: x-large;
+  width: 100%;
 }
 
 .selectDestination {
-    height: 100px;
-    font-size: xx-large;
-    width: 100%;
+  height: 70px;
+  font-size: x-large;
+  width: 100%;
 }
 
 .smallText {
-    margin: 10px 0px;
-    font-size: medium;
+  margin: 10px 0px;
+  font-size: medium;
 }
 
 .dateContainer {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .dateSelect {
-    height: 60px;
-    width: 95%;
-    font-size: x-large;
+  height: 60px;
+  width: 95%;
+  font-size: x-large;
 }
 
 .dateAndPerson {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    justify-content: center;
-    width: 80%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  width: 80%;
+}
+
+@media (max-width: 425px) {
+  .dateAndPerson {
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  .dateSelect {
+    width: 100%;
+    margin-bottom: 15px;
+  }
 }
 
 .personContainer {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .btnsInput {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
-
 .minorMayorBtn {
-    height: 60px;
-    width: 60px;
-    border: none;
-    background-color: navy;
-    color: oldlace;
-    font-size: 30px;
-    font-weight: bold;
-    border-radius: 5px;
-    margin: 0 2.5px;
+  height: 60px;
+  width: 60px;
+  border: none;
+  background-color: navy;
+  color: oldlace;
+  font-size: 30px;
+  font-weight: bold;
+  border-radius: 5px;
+  margin: 0;
+  cursor: pointer;
 }
-
 .reserveBtn {
-    height: 70px;
-    width: 70%;
-    margin-top: 20px;
-    border: none;
-    font-size: x-large;
-    font-weight: bold;
-    background-color: navy;
-    color: oldlace;
-    border-radius: 5px;
-    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.262);
+  height: 70px;
+  width: 50%;
+  margin-top: 20px;
+  border: none;
+  font-size: x-large;
+  font-weight: bold;
+  background-color: navy;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.262);
+  cursor: pointer;
+}
+.fieldPassengersContainer {
+  display: flex;
+  flex-direction: column;
+}
+.fieldPassengers {
+  font-size: 50px;
+  margin: 0;
+  color: navy;
+}
+.fieldPassengerAlert {
+  font-size: x-small;
+  color: crimson;
+  text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.262);
+  margin: 0;
 }
