@@ -1,10 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './slices/counterSlice'
-import citiesReducer from './slices/citiesSlice'
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
+import cities from './reducers'
 
-export default configureStore({
-    reducer:{
-        counter: counterReducer,
-        cities: citiesReducer,
-    }
-})
+//const composeEnhacers = window.__REDUX_DEVTOOLS_EXTEMSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+
+const store = createStore( cities,composeEnhancers(
+    applyMiddleware(thunk)
+))
+
+export default store

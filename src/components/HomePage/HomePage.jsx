@@ -1,28 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { decrement, increment } from "../../Redux/slices/counterSlice.js";
-import { get } from "../../Redux/slices/citiesSlice.js";
 import style from "./HomePage.module.css";
 import Reservations from "../Reservations";
 
 const HomePage = () => {
   const [originName, setOriginName] = useState("Origen");
-  // const [originID, setOriginID] = useState(null);
   const [destination, setDestination] = useState("Destino");
   const [passengers, setPassengers] = useState(0);
   const [isActiveReservations, setIsActiveReservations] = useState(false);
 
+  const reduxCities = useSelector((state) => state.data)
+
   const [isCities, setIsCities] = useState(false);
   const [cities, setCities] = useState([]);
-  const [citiesFilter, setCitiesFilter] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:3001/cities")
-      .then((res) => res.json())
-      .then((dd) => {
-        setCities(dd);
-        setIsCities(true);
-      });
-  }, []);
+  const [citiesFilter, setCitiesFilter] = useState([]);  
+
+  useEffect(()=>{
+    if(reduxCities){
+      setIsCities(true)
+      setCities(reduxCities)
+    }
+  },[reduxCities])
 
   const setDestinations = (id) => {
     const ci = cities;
@@ -38,17 +36,13 @@ const HomePage = () => {
   const validData = () => {
     if (origin && destination && passengers) {
       setIsActiveReservations(true);
-      // setOrigin("Origen");
+      setOriginName("Origen");
       setDestination("Destino");
       setPassengers(0);
     } else {
       setIsActiveReservations(false);
     }
   };
-
-  const count = useSelector((state) => state.counter.value);
-  const response = useSelector((state) => state.cities.value);
-  const dispatch = useDispatch();
 
   return (
     <div className={style.container}>
@@ -66,7 +60,7 @@ const HomePage = () => {
               {originName}
             </option>
             {isCities ? (
-              cities.map((d) => (
+              reduxCities.map((d) => (
                 <option value={d.id} key={d.id}>
                   {d.destination}
                 </option>
@@ -158,31 +152,6 @@ const HomePage = () => {
         <button onClick={() => validData()} className={style.reserveBtn}>
           Reservar
         </button>
-
-        <div>
-          <div>
-            <button
-              aria-label="Increment value"
-              onClick={() => dispatch(increment())}
-            >
-              Increment
-            </button>
-            <span>{count}</span>
-            <button
-              aria-label="Decrement value"
-              onClick={() => dispatch(decrement())}
-            >
-              Decrement
-            </button>
-
-            <button
-              aria-label="añadir test"
-              onClick={() => dispatch(get("adios"))}
-            >
-              test
-            </button>
-          </div>
-        </div>
       </div>
 
       {/* <Reservations active={isActiveReservations} /> commented for testing */}
