@@ -2,7 +2,7 @@
 const data = [
     {
         id: 0,
-        destination: "Guadalajara",
+        destination: "Guadalajara x2",
         vuelos: [
             {
                 id: 1,

@@ -5,39 +5,35 @@ import { get } from "../../Redux/slices/citiesSlice.js";
 import style from "./HomePage.module.css";
 import Reservations from "../Reservations";
 
-import data from "../data";
-
 const HomePage = () => {
   const [originName, setOriginName] = useState("Origen");
-  const [originID, setOriginID] = useState(null);
+  // const [originID, setOriginID] = useState(null);
   const [destination, setDestination] = useState("Destino");
   const [passengers, setPassengers] = useState(0);
   const [isActiveReservations, setIsActiveReservations] = useState(false);
-  const [filter, setFilter] = useState([]);
 
-  const count = useSelector((state) => state.counter.value);
-  const response = useSelector((state) => state.cities.value);
-  const dispatch = useDispatch();
-  console.log("redux", response);
+  const [isCities, setIsCities] = useState(false);
+  const [cities, setCities] = useState([]);
+  const [citiesFilter, setCitiesFilter] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3001/cities")
+      .then((res) => res.json())
+      .then((dd) => {
+        setCities(dd);
+        setIsCities(true);
+      });
+  }, []);
 
   const setDestinations = (id) => {
-    let array = data;
-    console.log("array", array);
-    let origenConvertido = array.splice(id, 1);
-    console.log("origner conver", origenConvertido);
+    const ci = cities;
+    const arrayCities = ci;
+    const originSelected = arrayCities.splice(id, 1);
 
-    console.log(
-      "oc",
-      origenConvertido.map((d) => d.destination)
-    );
-    const fOriginName = origenConvertido.map((d) => d.destination);
-    setOriginName(fOriginName);
-    setFilter(array);
+    setOriginName(originSelected.map((d) => d.destination));
+    setCitiesFilter(arrayCities);
   };
 
-  const dateById = [data.find((d) => d.id == destination)];
-
-  console.log("desde afuera ", originID);
+  const dateByDestination = [citiesFilter.find((d) => d.id == destination)];
 
   const validData = () => {
     if (origin && destination && passengers) {
@@ -50,17 +46,9 @@ const HomePage = () => {
     }
   };
 
-  const [imageUrl, setImageUrl] = useState(null);
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((user) => {
-        setImageUrl(user); // ⬅️ Guardar datos // ⬅️ Desactivar modo "cargando"
-      });
-    console.log("response", response);
-    console.log("imageurl", imageUrl);
-    dispatch(get(imageUrl));
-  }, []);
+  const count = useSelector((state) => state.counter.value);
+  const response = useSelector((state) => state.cities.value);
+  const dispatch = useDispatch();
 
   return (
     <div className={style.container}>
@@ -74,15 +62,18 @@ const HomePage = () => {
             onChange={(e) => setDestinations(e.target.value)}
             className={style.selectOrigin}
           >
-            {/* {origin === "Origen" ? <option value={origin}>Origen</option> : null} */}
             <option value={originName} style={{ color: "gray" }}>
               {originName}
             </option>
-            {data.map((d) => (
-              <option value={d.id} key={d.id}>
-                {d.destination}
-              </option>
-            ))}
+            {isCities ? (
+              cities.map((d) => (
+                <option value={d.id} key={d.id}>
+                  {d.destination}
+                </option>
+              ))
+            ) : (
+              <option>Cargando...</option>
+            )}
           </select>
         </div>
 
@@ -96,7 +87,7 @@ const HomePage = () => {
             // onClick={()=>setDestinations(0)}
           >
             <option value="default">Destino</option>
-            {filter.map((d) => (
+            {citiesFilter.map((d) => (
               <option value={d.id} key={d.id}>
                 {d.destination}
               </option>
@@ -116,10 +107,10 @@ const HomePage = () => {
             >
               <option value="default">Seleccionar horario</option>
               {destination !== "Destino"
-                ? dateById.map((e) =>
-                    e.vuelos.map((date) => (
+                ? dateByDestination.map((d) =>
+                    d.flights.map((date) => (
                       <option value={date.id} key={date.id}>
-                        {date.despegue}
+                        {date.takeoff}
                       </option>
                     ))
                   )
@@ -142,7 +133,9 @@ const HomePage = () => {
               <div className={style.fieldPassengersContainer}>
                 <p className={style.fieldPassengers}>{passengers}</p>
                 {passengers >= 10 ? (
-                  <p className={style.fieldPassengerAlert}>¡Solo puedes comprar 10 boletos!</p>
+                  <p className={style.fieldPassengerAlert}>
+                    ¡Solo puedes comprar 10 boletos!
+                  </p>
                 ) : null}
               </div>
               <button
