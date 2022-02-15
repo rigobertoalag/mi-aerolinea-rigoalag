@@ -143,3 +143,23 @@ select {
   text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.262);
   margin: 0;
 }
+.customSelect {
+  font-size: "medium";
+  margin-top: 0;
+  padding: 0;
+  color: navy;
+  background-color: white;
+  z-index: 3;
+  position: absolute;
+  width: 65%;
+  border-radius: 5px;
+  border: 1px solid navy;
+  border-bottom: none;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.349);
+}
+.customOption{
+  border-bottom: 1px solid navy;
+  height: 100%;
+  margin: 0;
+  padding: 12px;
+}

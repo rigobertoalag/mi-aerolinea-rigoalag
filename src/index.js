@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
-import store from './Redux/store'
-import { fetchCities } from './Redux/actions'
+import store from './Redux/apiCall/store'
+import { fetchCities } from './Redux/apiCall/actions'
 
 store.dispatch(fetchCities())
 
