@@ -7,6 +7,7 @@ import store from "../../Redux/apiCall/store";
 
 const HomePage = () => {
   const reduxCities = useSelector((state) => state.cities.data);
+  const modalState = useSelector((state) => state.activeReservationModal);
   const dispatch = useDispatch();
   /** */
 
@@ -68,18 +69,7 @@ const HomePage = () => {
     const filter = citiesFilter.splice(originID, 1); //this var returns the user selected origin
 
     setDestinations(citiesFilter);
-  };
-
-  console.log(
-    "originSelected",
-    originSelected,
-    "destinationSelected",
-    destinationSelected,
-    "flightDates",
-    flightDates,
-    "passengers",
-    passengers
-  );
+  }
 
   const validData = () => {
     if (originSelected && destinationSelected && flightDates && passengers) {
@@ -92,7 +82,6 @@ const HomePage = () => {
           passengers: passengers,
         },
       });
-      setIsActiveReservations(true);
       setOriginSelected({
         originID: null,
         originName: null,
@@ -109,8 +98,10 @@ const HomePage = () => {
         price: null,
       });
       setPassengers(0);
-    } else {
-      setIsActiveReservations(false);
+      store.dispatch({
+        type: "OPEN_MODAL",
+        payload: true,
+      });
     }
   };
 
@@ -312,7 +303,7 @@ const HomePage = () => {
       </div>
 
       {/* <Reservations active={isActiveReservations} /> commented for testing */}
-      <Reservations active={isActiveReservations} />
+      <Reservations active={modalState} />
     </div>
   );
 };

@@ -8,16 +8,6 @@ const cities = (state = [], action) => {
             return state
     }
 }
-const counter = (state = 0, action) => {
-    switch (action.type) {
-        case 'INCREMENT':
-            return state + 1
-        case 'DECREMENT':
-            return state - 1
-        default:
-            return state
-    }
-}
 
 const addReservation = (state = [], action) => {
     switch (action.type) {
@@ -28,6 +18,17 @@ const addReservation = (state = [], action) => {
     }
 }
 
-const rootReducer = combineReducers({ cities, counter, addReservation })
+const activeReservationModal = (state = false, action) => {
+    switch (action.type) {
+        case 'OPEN_MODAL':
+            return state = true
+        case 'CLOSE_MODAL':
+            return state = false
+        default:
+            return state
+    }
+}
+
+const rootReducer = combineReducers({ cities, addReservation, activeReservationModal })
 
 export default rootReducer

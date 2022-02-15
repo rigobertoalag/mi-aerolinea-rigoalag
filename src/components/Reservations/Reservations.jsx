@@ -9,49 +9,44 @@ import { useSelector } from "react-redux";
 const Reservations = ({ active }) => {
   const [isActive, setIsActive] = useState(active);
   const [isConfirm, setIsConfirm] = useState(false);
-  const [date, setDate] = useState()
-
-  const [reservations, setReservations] = useState([
-    {
-      destination: null,
-    },
-  ]);
 
   useEffect(() => {
-    setIsActive(active);
-    setDate(dataReservation.map(des2 => des2.flight).toString())
-    reservationData(dataReservation.map(des => des.destination))
-
-
+    setIsActive(active)
+    
   }, [active]);
 
-  // const cities = useSelector((state) => state.cities.data);
-  const cities = localStorage.getItem("cities");
-  const dataReservation = useSelector((state) => state.addReservation)
-
+  /** */
+  //data from reservation
+  const dataReservation = useSelector((state) => state.addReservation);
+  const modalState = useSelector((state) => state.activeReservationModal);
   
+  console.log("valor de la prop active", active);
 
-  const reservationData = (id) => {
-    if (cities) {
-      const ci = JSON.parse(cities);
-      const arrayReservation = ci;
-      const destinationSelected = arrayReservation.splice(id, 1);
-
-      setReservations([
-        {
-          destination: destinationSelected.map((d) => d.destination),
-          flight: destinationSelected.map((dd) =>
-            dd.flights.map((ddss) => ddss.takeoff)
-          ),
-        },
-      ]);
-
-      
-    }   
+  const getTotalOfReservations = () => {
+    let subtotal = dataReservation.map((r) => r.flight.price * r.passengers);
+    let total = 0;
+    subtotal.forEach(x => {
+      total += x
+    })
+    return total
   };
 
-  console.log("reservation data ", reservations);
-  
+  const showHideModal = () => {
+    if (modalState) {
+      store.dispatch({
+        type: "CLOSE_MODAL",
+        payload: true,
+      });
+      console.log("el modal esta true");
+    } else {
+      store.dispatch({
+        type: "OPEN_MODAL",
+        payload: true,
+      });
+      console.log("el modal esta false");
+    }
+  };
+  /** */
 
   return (
     <div
@@ -64,16 +59,21 @@ const Reservations = ({ active }) => {
 
       {!isConfirm ? (
         <>
-          {reservations.map((reser) => (
-            <div className={style.infoContainer}>
+          {dataReservation.map((reser) => (
+            <div className={style.infoContainer} key={reser.id}>
               <div className={style.citiesContainer}>
-                <p style={{ marginRight: 10 }}>Ciduda origen: {dataReservation.map(o => o.origin)}</p>
+                <p style={{ marginRight: 10 }}>Ciduda origen: {reser.origin}</p>
                 <p> Ciudad destino: {reser.destination}</p>
               </div>
 
-              <p>Hora de salida: "hora"</p>
-              <p>Numero de viajeros: {dataReservation.map(p => p.passangers)}</p>
-              <p>Total de esta reservacion: "$$"</p>
+              <p>Hora de salida: {reser.flight.takeoff}</p>
+              <p>Hora estimada de llegada: {reser.flight.landing}</p>
+              <p>Numero de viajeros: {reser.passengers}</p>
+              <p>Costo del boleto p/persona: ${reser.flight.price}</p>
+              <p>
+                Total de esta reservacion: $
+                {reser.flight.price * reser.passengers}
+              </p>
 
               <div className={style.deleteReservationContainer}>
                 <button className={style.deleteBtn}>
@@ -83,30 +83,12 @@ const Reservations = ({ active }) => {
             </div>
           ))}
 
-          <div className={style.infoContainer}>
-            <div className={style.citiesContainer}>
-              <p>Ciduda origen: "ciudad" - </p>
-              <p> Ciudad destino: "ciudad"</p>
-            </div>
-
-            <p>Hora de salida: "hora"</p>
-            <p>Numero de viajeros: "No"</p>
-            <p>Total de esta reservacion: "$$"</p>
-
-            {isConfirm ? null : (
-              <div className={style.deleteReservationContainer}>
-                <button className={style.deleteBtn}>
-                  Borrar esta reservacion
-                </button>
-              </div>
-            )}
-          </div>
           <div className={style.totalContainer}>
             <h4
               className={style.totalReservation}
               style={{ borderColor: isConfirm ? "gray" : "null" }}
             >
-              Total: "$$"
+              Total: ${getTotalOfReservations()}
             </h4>
             <p className={style.smallText}>*Los precios se muestran con IVA</p>
           </div>
@@ -120,9 +102,7 @@ const Reservations = ({ active }) => {
           <div className={style.bottomReservationBtnContainer}>
             <button
               className={style.outlineBtn}
-              onClick={
-                (() => setIsActive(false), () => window.location.reload(false))
-              }
+              onClick={() => showHideModal()}
             >
               Hacer otra reserva
             </button>
@@ -144,9 +124,7 @@ const Reservations = ({ active }) => {
 
       <div
         className={style.closeReservationContainer}
-        onClick={
-          (() => setIsActive(false), () => window.location.reload(false))
-        }
+        onClick={() => showHideModal()}
       >
         <span className="material-icons" style={{ cursor: "pointer" }}>
           close
