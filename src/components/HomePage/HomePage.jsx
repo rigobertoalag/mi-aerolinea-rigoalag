@@ -85,10 +85,12 @@ const HomePage = () => {
       store.dispatch({
         type: "ADD_RESERVATION",
         text: {
-          origin: originSelected.originName,
+          originID: originSelected.originID,
+          originName: originSelected.originName,
           destination: destinationSelected.destinationName,
           flight: flightDates,
           passengers: passengers,
+          arrayID: originSelected.originID + Math.random(1) 
         },
       });
       setOriginSelected({

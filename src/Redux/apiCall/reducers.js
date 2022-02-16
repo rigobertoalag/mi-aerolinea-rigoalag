@@ -9,24 +9,14 @@ const cities = (state = [], action) => {
     }
 }
 
-const initialState = {
-    reservations:[]
-}
-
-const addReservation = (state = initialState, action) => {
+const addReservation = (state = [], action) => {
     switch (action.type) {
         case 'ADD_RESERVATION':
-            // return state.concat([action.text])
-            return{
-                ...state,
-                reservations: [...state.reservations.concat([action.text])]
-            }
-            case 'DELETE_RESERVATION':
-                return{
-                    reservations:[
-                        ...state.reservations.filter(reservation => reservation !== action.payload)
-                    ]
-                }
+            return state.concat([action.text])
+        case 'DELETE_RESERVATION':
+            return state.filter(reservationDelete => reservationDelete.arrayID !== action.id)
+        case 'DELETE_ALL_RESERVATIONS':
+            return state = []
         default:
             return state
     }

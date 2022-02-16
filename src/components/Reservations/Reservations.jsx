@@ -41,6 +41,19 @@ const Reservations = ({ active }) => {
       });
     }
   };
+
+  const deleteReservation = (id) =>{
+    store.dispatch({
+      type: "DELETE_RESERVATION",
+      id: id,
+    });
+  }
+
+  const deleteAllReservations = () =>{
+    store.dispatch({
+      type: "DELETE_ALL_RESERVATIONS",
+    });
+  }
   /** */
 
   return (
@@ -55,9 +68,9 @@ const Reservations = ({ active }) => {
       {!isConfirm && dataReservation.length > 0 ? (
         <>
           {dataReservation.map((reser) => (
-            <div className={style.infoContainer} key={reser.id}>
+            <div className={style.infoContainer} key={reser.originID}>
               <div className={style.citiesContainer}>
-                <p style={{ marginRight: 10 }}>Ciduda origen: {reser.origin}</p>
+                <p style={{ marginRight: 10 }}>Ciduda origen: {reser.originName}</p>
                 <p> Ciudad destino: {reser.destination}</p>
               </div>
 
@@ -71,7 +84,7 @@ const Reservations = ({ active }) => {
               </p>
 
               <div className={style.deleteReservationContainer}>
-                <button className={style.deleteBtn}>
+                <button className={style.deleteBtn} onClick={()=>deleteReservation(reser.arrayID)}>
                   Borrar esta reservacion
                 </button>
               </div>
@@ -104,7 +117,7 @@ const Reservations = ({ active }) => {
           </div>
 
           <div className={style.cleanReservation}>
-            <button className={style.deleteReservationsBtn}>
+            <button className={style.deleteReservationsBtn} onClick={()=>deleteAllReservations()}>
               Borar todas las reservaciones
             </button>
           </div>
