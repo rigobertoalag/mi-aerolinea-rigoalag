@@ -1,8 +1,14 @@
-# Getting Started with Create React App
+# Mi Aerolinea By Rigoberto Alcantar Aguilar
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Scripts requeridos para este proyecto
+
+### `npm i axios`
+### `npm i react-redux`
+### `npm i @reduxjs/toolkit`
+### `npm i redux`
+
 
 In the project directory, you can run:
 
