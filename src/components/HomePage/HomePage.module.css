@@ -18,6 +18,8 @@
   font-size: xx-large;
   border-bottom: 3px solid black;
   width: 80%;
+  margin-top: 15px;
+  margin-bottom: 10px;
 }
 
 .originContainer {
@@ -33,26 +35,43 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 30px;
-}
-
-select {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  border-radius: 10px;
-  color: navy;
+  margin-bottom: 10px;
 }
 
 .selectOrigin {
-  height: 70px;
-  font-size: x-large;
+  font-size: larger;
   width: 100%;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  border: 1px solid navy;
+  color: navy;
+  cursor: pointer;
 }
 
 .selectDestination {
-  height: 70px;
-  font-size: x-large;
+  font-size: larger;
   width: 100%;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  border: 1px solid navy;
+  color: navy;
+  cursor: pointer;
+}
+
+.selectDate {
+  font-size: larger;
+  width: 95%;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  border: 1px solid navy;
+  color: navy;
+  cursor: pointer;
+}
+
+.selectOrigin:hover,
+.selectDestination:hover {
+  background-color: rgb(230, 230, 230);
+  border: 1px solid rgb(18, 83, 204);
 }
 
 .smallText {
@@ -60,23 +79,23 @@ select {
   font-size: medium;
 }
 
-.dateContainer {
+.dateAndPerson {
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .dateSelect {
   height: 60px;
-  width: 95%;
-  font-size: x-large;
+  width: 90%;
+  font-size: large;
 }
 
 .dateAndPerson {
   display: flex;
   flex-direction: row;
   align-content: center;
-  justify-content: center;
+  justify-content: space-around;
   width: 80%;
 }
 
@@ -84,17 +103,75 @@ select {
   .dateAndPerson {
     flex-direction: column;
     margin-bottom: 15px;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
   }
-  .dateSelect {
+  .customSelect {
+    font-size: medium;
+    margin-top: 5px;
+    padding: 0;
+    color: navy;
+    background-color: white;
+    z-index: 3;
+    position: absolute;
     width: 100%;
-    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid navy;
+    border-bottom: none;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.349);
+  }
+  .selectDate {
+    font-size: larger;
+    width: 100%;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    border: 1px solid navy;
+    color: navy;
+    cursor: pointer;
+  }
+  .customOption{
+    border-bottom: 1px solid navy;
+    height: 100%;
+    /* width: 100%; */
+    margin: 0;
+    padding: 12px;
+    margin-top: 10px;
   }
 }
 
+/* @media(min-width: 768px){
+  .dateContainer{
+    background-color: orange;
+    width: 35%;
+  }
+  .personContainer2{
+    background-color: yellow;
+    width: 35%;
+  }
+  
+} */
+
 .personContainer {
+  display: none;
+  flex-direction: column;
+  width: 35%;
+  margin: 0;
+  opacity: 0;
+  transition: display 0s, opacity 0.5s linear;
+}
+.personContainer2 {
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin: 0;
+}
+
+.dateContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
 }
 
 .btnsInput {
@@ -116,8 +193,8 @@ select {
   cursor: pointer;
 }
 .reserveBtn {
-  height: 70px;
-  width: 50%;
+  height: 60px;
+  width: 40%;
   margin-top: 20px;
   border: none;
   font-size: x-large;
@@ -144,22 +221,32 @@ select {
   margin: 0;
 }
 .customSelect {
-  font-size: "medium";
-  margin-top: 0;
+  font-size: medium;
+  margin-top: 5px;
   padding: 0;
   color: navy;
   background-color: white;
   z-index: 3;
   position: absolute;
-  width: 65%;
+  width: 45%;
   border-radius: 5px;
   border: 1px solid navy;
   border-bottom: none;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.349);
 }
-.customOption{
+.customOption {
   border-bottom: 1px solid navy;
   height: 100%;
   margin: 0;
   padding: 12px;
+}
+.disable {
+  background-color: rgba(0, 0, 0, 0.301);
+}
+.errors {
+  color: crimson;
+  text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.262);
+  font-size: small;
+  margin-top: 10px;
+  margin-bottom: 0;
 }

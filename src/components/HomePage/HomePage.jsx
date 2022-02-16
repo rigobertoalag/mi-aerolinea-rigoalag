@@ -39,10 +39,13 @@ const HomePage = () => {
   //user select Passengers hooks
   const [passengers, setPassengers] = useState(0);
 
-  //hook who display reservation screen
-  const [isActiveReservations, setIsActiveReservations] = useState(false);
-
   const [cities, setCities] = useState(false); //immutable array cities
+
+  // hooks to display errors
+  const [isErrorDestination, setIsErrorDestination] = useState(false);
+  const [isErrorDate, setIsErrorDate] = useState(false);
+  const [isErrorPassengers, setIsErrorPassengers] = useState(false);
+  const [isValidata, setIsValidData] = useState(false)
 
   // effect to set the cities from redux store in localstorage to convert a immutable cities array
   useEffect(() => {
@@ -52,7 +55,11 @@ const HomePage = () => {
       cities = JSON.parse(cities);
       setCities(cities);
     }
-  }, [reduxCities]);
+
+    if(passengers){
+      setIsValidData(true)
+    }
+  }, [reduxCities, passengers]);
 
   // fucntion to filter destinations, user cant select the same value in origin to the destination value
   const filterDestinations = ({ originID, originName }) => {
@@ -62,6 +69,8 @@ const HomePage = () => {
       originID: originID,
       originName: originName,
     });
+    setIsErrorDate(false);
+    setIsErrorDestination(false);
 
     //filter array to destinations list
     const citiesArray = cities;
@@ -69,7 +78,7 @@ const HomePage = () => {
     const filter = citiesFilter.splice(originID, 1); //this var returns the user selected origin
 
     setDestinations(citiesFilter);
-  }
+  };
 
   const validData = () => {
     if (originSelected && destinationSelected && flightDates && passengers) {
@@ -114,13 +123,6 @@ const HomePage = () => {
           <small className={style.smallText}>Origen</small>
           <div
             className={style.selectOrigin}
-            style={{
-              backgroundColor: "white",
-              borderRadius: 5,
-              border: "1px solid navy",
-              color: "navy",
-              cursor: "pointer",
-            }}
             onClick={
               activeOriginSelect
                 ? () => setActiveOriginSelect(false)
@@ -128,6 +130,9 @@ const HomePage = () => {
             }
           >
             <p style={{ paddingLeft: 10 }}>
+              <span className="material-icons" style={{ marginRight: 10 }}>
+                flight_takeoff
+              </span>
               {originSelected.originName
                 ? originSelected.originName
                 : "Selecciona el origen"}
@@ -160,21 +165,24 @@ const HomePage = () => {
         <div className={style.destinationContainer}>
           <small className={style.smallText}>Destino</small>
           <div
-            className={style.selectOrigin}
-            style={{
-              backgroundColor: "white",
-              borderRadius: 5,
-              border: "1px solid navy",
-              color: "navy",
-              cursor: "pointer",
-            }}
+            className={style.selectDestination}
+            style={
+              !originSelected.originName
+                ? { backgroundColor: "rgba(0, 0, 0, 0.13)" }
+                : {}
+            }
             onClick={
-              activeDestinationSelect
-                ? () => setActiveDestinationSelect(false)
-                : () => setActiveDestinationSelect(true)
+              originSelected.originName
+                ? activeDestinationSelect
+                  ? () => setActiveDestinationSelect(false)
+                  : () => setActiveDestinationSelect(true)
+                : () => setIsErrorDestination(true)
             }
           >
             <p style={{ paddingLeft: 10 }}>
+              <span className="material-icons" style={{ marginRight: 10 }}>
+                flight_land
+              </span>
               {destinationSelected.destinationName
                 ? destinationSelected.destinationName
                 : "Selecciona el destino"}
@@ -205,32 +213,43 @@ const HomePage = () => {
               </div>
             ) : null}
           </div>
+          {isErrorDestination ? (
+            <p className={style.errors}>¡Selecciona primero un origen!</p>
+          ) : null}
         </div>
 
         <div className={style.dateAndPerson}>
           <div className={style.dateContainer}>
-            <small className={style.smallText}>
+            <small className={style.smallText} style={{ marginBottom: 10 }}>
               Horarios de salida disponible
             </small>
             <div
-              className={style.selectOrigin}
-              style={{
-                backgroundColor: "white",
-                borderRadius: 5,
-                border: "1px solid navy",
-                color: "navy",
-                cursor: "pointer",
-                width: "95%",
-                height: "100%",
-                fontSize: "large",
-              }}
+              className={style.selectDate}
+              style={
+                !destinationSelected.destinationName
+                  ? { backgroundColor: "rgba(0, 0, 0, 0.13)" }
+                  : {}
+              }
               onClick={
-                activeDateSelect
-                  ? () => setActiveDateSelect(false)
-                  : () => setActiveDateSelect(true)
+                destinationSelected.destinationName
+                  ? activeDateSelect
+                    ? () => setActiveDateSelect(false)
+                    : () => setActiveDateSelect(true)
+                  : () => setIsErrorDate(true)
               }
             >
-              <p style={{ paddingLeft: 10 }}>
+              <p
+                style={{
+                  paddingLeft: 10,
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  fontSize: "medium",
+                }}
+              >
+                <span className="material-icons" style={{ marginRight: 5 }}>
+                  today
+                </span>
                 {flightDates.takeoff
                   ? flightDates.takeoff
                   : "Seleccionar horario"}
@@ -241,6 +260,7 @@ const HomePage = () => {
                     destinationSelected.destinationFlight.map((d) => (
                       <p
                         className={style.customOption}
+                        style={{ fontSize: 'smaller' }}
                         key={d.id}
                         onClick={
                           (() => setActiveDateSelect(false),
@@ -253,7 +273,7 @@ const HomePage = () => {
                             }))
                         }
                       >
-                        {d.takeoff}
+                        Salida:{d.takeoff} - Llegada:{d.landing}
                       </p>
                     ))
                   ) : (
@@ -262,10 +282,24 @@ const HomePage = () => {
                 </div>
               ) : null}
             </div>
+
+            {isErrorDate ? (
+              <p className={style.errors}>
+                ¡Selecciona primero un origen y un destino!
+              </p>
+            ) : null}
           </div>
 
-          <div className={style.personContainer}>
-            <small className={style.smallText}>Numero de personas</small>
+          <div
+            className={
+              flightDates.takeoff
+                ? style.personContainer2
+                : style.personContainer
+            }
+          >
+            <small className={style.smallText} style={{ marginBottom: 10 }}>
+              Numero de personas
+            </small>
 
             <div className={style.btnsInput}>
               <button
@@ -286,7 +320,14 @@ const HomePage = () => {
               </div>
               <button
                 className={style.minorMayorBtn}
-                onClick={() => setPassengers(passengers + 1)}
+                onClick={
+                  flightDates.takeoff
+                    ? () => {
+                        setPassengers(passengers + 1);
+                        setIsErrorPassengers(false);
+                      }
+                    : null
+                }
                 disabled={
                   passengers >= 10 ? true : destinationSelected ? false : true
                 }
@@ -294,15 +335,28 @@ const HomePage = () => {
                 +
               </button>
             </div>
+            {isErrorPassengers ? (
+              <p className={style.errors}>
+                ¡Debes seleccionar al menos 1 boleto!
+              </p>
+            ) : null}
           </div>
         </div>
 
-        <button onClick={() => validData()} className={style.reserveBtn}>
+        <button
+          onClick={
+            passengers ? () => validData() : () => setIsErrorPassengers(true)
+          }
+          className={style.reserveBtn}
+          style={
+            !isValidata
+              ? { backgroundColor: "rgba(0, 0, 128, 0.486)" }
+              : {}
+          }
+        >
           Reservar
         </button>
       </div>
-
-      {/* <Reservations active={isActiveReservations} /> commented for testing */}
       <Reservations active={modalState} />
     </div>
   );

@@ -12,15 +12,12 @@ const Reservations = ({ active }) => {
 
   useEffect(() => {
     setIsActive(active)
-    
   }, [active]);
 
   /** */
   //data from reservation
   const dataReservation = useSelector((state) => state.addReservation);
   const modalState = useSelector((state) => state.activeReservationModal);
-  
-  console.log("valor de la prop active", active);
 
   const getTotalOfReservations = () => {
     let subtotal = dataReservation.map((r) => r.flight.price * r.passengers);
@@ -37,13 +34,11 @@ const Reservations = ({ active }) => {
         type: "CLOSE_MODAL",
         payload: true,
       });
-      console.log("el modal esta true");
     } else {
       store.dispatch({
         type: "OPEN_MODAL",
         payload: true,
       });
-      console.log("el modal esta false");
     }
   };
   /** */
@@ -57,7 +52,7 @@ const Reservations = ({ active }) => {
         <h2>{isConfirm ? "Datos para la reservacion" : "Mis Reservaciones"}</h2>
       </div>
 
-      {!isConfirm ? (
+      {!isConfirm && dataReservation.length > 0 ? (
         <>
           {dataReservation.map((reser) => (
             <div className={style.infoContainer} key={reser.id}>
@@ -92,13 +87,7 @@ const Reservations = ({ active }) => {
             </h4>
             <p className={style.smallText}>*Los precios se muestran con IVA</p>
           </div>
-        </>
-      ) : null}
 
-      <ConfirmReservation active={isConfirm} />
-
-      {isConfirm ? null : (
-        <>
           <div className={style.bottomReservationBtnContainer}>
             <button
               className={style.outlineBtn}
@@ -120,7 +109,15 @@ const Reservations = ({ active }) => {
             </button>
           </div>
         </>
+      ) : (
+        <>
+          <h3>¡Esta muy solitario por aqui!</h3>
+          <p style={{ color: 'gray' }}>Parece que aun no haz realizado ninguna reservacion</p>
+          <button onClick={() => showHideModal()} className={style.successBtn} style={{ fontSize: 'large' }}>Hacer una reservacion</button>
+        </>
       )}
+
+      <ConfirmReservation active={isConfirm} />
 
       <div
         className={style.closeReservationContainer}

@@ -5,8 +5,7 @@ import store from "../Redux/apiCall/store";
 
 const NavBar = () => {
   const modalState = useSelector((state) => state.activeReservationModal);
-  console.log("modalState", modalState);
-
+  
   const showHideModal = () => {
     if (modalState) {
       store.dispatch({
@@ -45,7 +44,7 @@ const NavBar = () => {
         Mi Aerolínea
       </p>
 
-      <div
+      <button
         style={{
           display: "flex",
           flexDirection: "row",
@@ -54,14 +53,17 @@ const NavBar = () => {
           justifyItems: "center",
           marginRight: 20,
           cursor: "pointer",
+          backgroundColor: 'navy',
+          border:'none'
         }}
+        ty
         onClick={() => showHideModal()}
       >
         <span className="material-icons" style={{}}>
           shopping_cart
         </span>
         <p style={{ fontSize: "x-small" }}>Reservaciones</p>
-      </div>
+      </button>
 
       <Reservations active={modalState} />
     </div>
