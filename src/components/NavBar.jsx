@@ -18,7 +18,6 @@ const NavBar = () => {
         type: "OPEN_MODAL",
         payload: true,
       });
-      console.log("el modal esta false");
     }
   };
 
@@ -56,10 +55,9 @@ const NavBar = () => {
           backgroundColor: 'navy',
           border:'none'
         }}
-        ty
         onClick={() => showHideModal()}
       >
-        <span className="material-icons" style={{}}>
+        <span className="material-icons">
           shopping_cart
         </span>
         <p style={{ fontSize: "x-small" }}>Reservaciones</p>

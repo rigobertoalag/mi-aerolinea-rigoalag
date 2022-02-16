@@ -22,6 +22,15 @@ const addReservation = (state = [], action) => {
     }
 }
 
+const userData = (state = [], action) =>{
+    switch (action.type) {
+        case 'ADD_USER_DATA':
+            return state.concat([action.text])
+        default:
+            return state
+    }
+}
+
 const activeReservationModal = (state = false, action) => {
     switch (action.type) {
         case 'OPEN_MODAL':
@@ -33,6 +42,6 @@ const activeReservationModal = (state = false, action) => {
     }
 }
 
-const rootReducer = combineReducers({ cities, addReservation, activeReservationModal })
+const rootReducer = combineReducers({ cities, addReservation, activeReservationModal, userData })
 
 export default rootReducer
